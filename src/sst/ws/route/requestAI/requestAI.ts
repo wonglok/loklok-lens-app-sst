@@ -65,9 +65,11 @@ export async function requestAI({
                                     Data: JSON.stringify({
                                         action: 'requestAI',
                                         payload: {
+                                            ...payload,
+
+                                            requestedAt: Date.now(),
                                             connectionID: `${connection.itemID}`,
                                             clientID: `${connection.clientID}`,
-                                            query: `${query}`,
 
                                             // jwt: `${jwt}`,
 

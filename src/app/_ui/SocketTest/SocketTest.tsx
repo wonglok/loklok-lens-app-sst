@@ -5,24 +5,26 @@ import { useEffect, useRef, useState } from "react"
 import copy from 'copy-to-clipboard';
 import WebSocket from 'reconnecting-websocket'
 import { TextQueryImage } from "./TextQueryImage";
-export function SocketTest({ socketURL = '' }) {
+import { useSearchParams } from "next/navigation";
+export function SocketTest({ socketURL = '', clientID = ''}) {
     let [status, setStatus] = useState('loading')
     let [logs, setLogs] = useState([])
     let [wss, setWss] = useState<any>(false)
+    let params = useSearchParams()
+
+    let connectionURL = `${socketURL}?clientID=${clientID}`
     useEffect(() => {  
         if (!socketURL) {
             return
         }
-        
-        localStorage.setItem("clientID", `lokloklens`);
 
-        let clientID = localStorage.getItem("clientID");
+        // localStorage.setItem("clientID", `lokloklens`);
 
         console.log('clientID', clientID)
 
         let clean = () => {}
 
-        let wss = new WebSocket(`${socketURL}?clientID=${clientID}`);
+        let wss = new WebSocket(connectionURL);
 
         wss.onopen = () => {
             //
@@ -54,21 +56,22 @@ export function SocketTest({ socketURL = '' }) {
         return () => {
             clean()
         }
-    }, [socketURL])
+    }, [connectionURL])
 
     return <>
         {status === 'loading' && <>
-            Loading...
+            <div className="mb-3">
+                <BlueBlock value={connectionURL} text="Loading..." color="blue"></BlueBlock>
+            </div>
         </>}
         {status === 'open' && <>
-
             <div className="mb-3">
-                <CopyBtn value={socketURL}></CopyBtn>
+                <GreenBlock value={connectionURL} text="Ready!" color="blue"></GreenBlock>
             </div>
 
             <div className="mb-3">
                 {wss && <>
-                    <TextQueryImage wss={wss}></TextQueryImage>
+                    <TextQueryImage wss={wss} clientID={clientID}></TextQueryImage>
                 </>}
             </div>
     
@@ -79,22 +82,25 @@ export function SocketTest({ socketURL = '' }) {
 }
 
 
-function CopyBtn ({value = ''}) {
-    let refCopy = useRef<HTMLSpanElement>(null)
+function BlueBlock ({value = '', color = 'blue', text= 'Loading...' }) {
+    let refStatus = useRef<HTMLSpanElement>(null)
+
+
+    //
 
     return  <div onClick={() =>{
-        copy(value)
-        if (refCopy.current) {
-            refCopy.current.innerText = 'COPIED!'
-            setTimeout(() =>{
-                if (refCopy.current) {
-                    refCopy.current.innerText = 'COPY LINK'
-                }
-            }, 5000)
-        } 
-    }} className="rounded-lg py-2 px-3 bg-green-200 text-green-800 cursor-pointer  flex">
-        <span ref={refCopy} className="bg-green-100 px-3 text-sm py-1 mx-2 select-none">COPY LINK</span>
-        
-        <span className="bg-green-100 px-3 text-sm py-1 block">{value}</span>
+    }} className={`rounded-lg py-2 px-3 bg-blue-200 text-blue-800 cursor-pointer  flex`}>
+        <span ref={refStatus} className={`bg-blue-100 px-3 text-sm py-1 mx-2 select-none`}>{text}</span>
+        <span className={`bg-blue-100 px-3 text-sm py-1 block`}>{value}</span>
+    </div> 
+}
+
+function GreenBlock ({value = '', color = 'blue', text= 'Loading...' }) {
+    let refStatus = useRef<HTMLSpanElement>(null)
+
+    return  <div onClick={() =>{
+    }} className={`rounded-lg py-2 px-3 bg-green-200 text-green-800 cursor-pointer  flex`}>
+        <span ref={refStatus} className={`bg-green-100 px-3 text-sm py-1 mx-2 select-none`}>{text}</span>
+        <span className={`bg-green-100 px-3 text-sm py-1 block`}>{value}</span>
     </div> 
 }

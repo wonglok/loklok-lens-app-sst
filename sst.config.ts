@@ -27,13 +27,20 @@ export default $config({
             SESSION_SECRET: SESSION_SECRET.value,
             SocketAPI: wss.url,
         }
+        let domain = {
+            name: 'lens.loklok.land',
+        }
+
+        if ($app.stage === 'preview') {
+            domain = {
+                name: 'lens-preview.loklok.land',
+            }
+        }
 
         let nextjs = new sst.aws.Nextjs('MyWeb', {
             environment: environment,
             link: [...getRealtimeLinks()],
-            domain: {
-                name: 'lens.loklok.land',
-            },
+            domain: domain,
         })
 
         wss.route('$connect', {

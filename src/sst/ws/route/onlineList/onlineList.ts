@@ -5,7 +5,7 @@ import { unmarshall } from '@aws-sdk/util-dynamodb'
 import { ApiGatewayManagementApiClient, PostToConnectionCommand } from '@aws-sdk/client-apigatewaymanagementapi'
 const SESSION_SECRET = process.env.SESSION_SECRET || ''
 
-export async function respondAI({
+export async function onlineList({
     inbound,
     connectionId,
     wss,
@@ -16,9 +16,10 @@ export async function respondAI({
     wss: ApiGatewayManagementApiClient
     dyna: DynamoDBClient
 }) {
+    //
+
     let payload = inbound.payload
     let clientID = payload.clientID
-    let query = payload.query
 
     console.log(inbound)
 
@@ -53,6 +54,7 @@ export async function respondAI({
                 for (let item of r.Items) {
                     if (item) {
                         let connection = unmarshall(item)
+                        let list = r.Items.map((it: any) => unmarshall(it))
 
                         console.log('connection', connection)
 
@@ -65,7 +67,7 @@ export async function respondAI({
                                         payload: {
                                             connectionID: `${connection.itemID}`,
                                             clientID: `${connection.clientID}`,
-                                            query: `${query}`,
+                                            list: list,
 
                                             // jwt: `${jwt}`,
 

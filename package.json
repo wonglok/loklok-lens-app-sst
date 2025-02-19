@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "next dev --port 3001",
     "lint": "next lint",
     "start": "next start",
     "unlock": "npx sst unlock --stage development",
@@ -23,6 +23,7 @@
     "@aws-sdk/client-apigatewaymanagementapi": "^3.749.0",
     "@aws-sdk/client-dynamodb": "^3.749.0",
     "@aws-sdk/util-dynamodb": "^3.749.0",
+    "@types/md5": "^2.3.5",
     "copy-to-clipboard": "^3.3.3",
     "file-loader": "^6.2.0",
     "glslify-loader": "^2.0.0",
