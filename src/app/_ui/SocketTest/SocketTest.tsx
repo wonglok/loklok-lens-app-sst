@@ -20,6 +20,7 @@ export function SocketTest({ socketURL = '', clientID = ''}) {
         }
 
         //
+        //
         // localStorage.setItem("clientID", `lokloklens`);
 
         console.log('clientID', clientID)
