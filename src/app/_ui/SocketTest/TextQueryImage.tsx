@@ -14,11 +14,11 @@ export function TextQueryImage({ wss , clientID}: { clientID:string, wss: WebSoc
                 payload: {
                     requestID: `${md5(`${v4}`)}`,
                     clientID: clientID,
-                    type: 'text-query-image',
+                    type: 'text-search-image',
                     query: refInput.current?.value
                 }
             }))
-        }}>requestAI text-query-image</button>
+        }}>requestAI text-search-image</button>
     </>
 }
 

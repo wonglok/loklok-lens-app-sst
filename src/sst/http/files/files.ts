@@ -43,17 +43,18 @@ export const signGenericFile = async (event: LambdaFunctionURLEvent | any) => {
 
     const uploadURL = await getSignedUrl(s3, cmd)
 
-    const accessURL = await getSignedUrl(
-        s3,
-        new GetObjectCommand({
-            Key: fileKey,
-            Bucket: Resource.AppDataBucket.name,
-        }),
-    )
+    // const accessURL = await getSignedUrl(
+    //     s3,
+    //     new GetObjectCommand({
+    //         Key: fileKey,
+    //         Bucket: Resource.AppDataBucket.name,
+    //     }),
+    // )
 
     return {
         bucket: s3.config.endpoint,
-        accessURL,
+        // accessURL,
+        fileURL: `${cdn}/${fileKey}`,
         fileKey,
         cdn,
         uploadURL,
