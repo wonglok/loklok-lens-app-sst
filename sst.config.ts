@@ -87,6 +87,10 @@ export default $config({
             environment: environment,
             link: [...getRealtimeLinks()],
             domain: domain,
+            dev: {
+                command: `npm run dev3001`,
+                url: `http://localhost:3001`,
+            },
         })
 
         wss.route('$connect', {
