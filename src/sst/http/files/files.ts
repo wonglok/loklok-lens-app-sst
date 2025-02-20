@@ -28,7 +28,11 @@ export const signGenericFile = async (event: LambdaFunctionURLEvent | any) => {
     // can insert check code here if you stored the install.....
     // ===============
 
-    const fileKey = `uploads/ai-respond/${CURRENT_STAGE}/${md5(`${install}`)}/${v4()}`
+    // works
+    // const fileKey = `/uploads/ai-respond/${CURRENT_STAGE}/${md5(`${install}`)}/${v4()}`
+
+    // cleaner
+    const fileKey = `ai-respond/${CURRENT_STAGE}/${md5(`${install}`)}/${v4()}`
 
     const cmd = new PutObjectCommand({
         Key: fileKey,
@@ -37,13 +41,22 @@ export const signGenericFile = async (event: LambdaFunctionURLEvent | any) => {
 
     const cdn = Resource.AppDataCDN.url
 
-    const url = await getSignedUrl(s3, cmd)
+    const uploadURL = await getSignedUrl(s3, cmd)
 
-    //
+    const accessURL = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+            Key: fileKey,
+            Bucket: Resource.AppDataBucket.name,
+        }),
+    )
+
     return {
+        bucket: s3.config.endpoint,
+        accessURL,
         fileKey,
         cdn,
-        url,
+        uploadURL,
     }
 }
 
