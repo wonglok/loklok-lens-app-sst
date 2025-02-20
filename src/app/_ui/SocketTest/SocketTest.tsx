@@ -10,7 +10,18 @@ export function SocketTest({ socketURL = '', clientID = ''}) {
     let [status, setStatus] = useState('loading')
     let [logs, setLogs] = useState([])
     let [wss, setWss] = useState<any>(false)
+    let [images, setImages] = useState([] )
     let params = useSearchParams()
+
+    /*
+    {
+        "fileURL": "https://d3ocaxv8y28mbj.cloudfront.net/ai-respond/development/856ff6d08107f993731fa8bc100be3f9/2dd25fb9-c19e-404a-9994-c421987217ea",
+        "fileKey": "ai-respond/development/856ff6d08107f993731fa8bc100be3f9/2dd25fb9-c19e-404a-9994-c421987217ea",
+        "cdn": "https://d3ocaxv8y28mbj.cloudfront.net",
+        "uploadURL": "",
+        "contentURL": "https://d3ocaxv8y28mbj.cloudfront.net/ai-respond/development/856ff6d08107f993731fa8bc100be3f9/2dd25fb9-c19e-404a-9994-c421987217ea"
+      },
+    */
 
     let connectionURL = `${socketURL}?clientID=${clientID}`
     useEffect(() => {  
@@ -49,6 +60,9 @@ export function SocketTest({ socketURL = '', clientID = ''}) {
             let payload = rawJSON.payload;
             let action = rawJSON.action;
 
+            if (action === 'respondAI') {
+                setImages(payload.answer)
+            }
             setLogs((prev): any => {
                 return [...prev, JSON.stringify(rawJSON, null, 2)]
             })
@@ -75,6 +89,13 @@ export function SocketTest({ socketURL = '', clientID = ''}) {
                     <TextQueryImage wss={wss} clientID={clientID}></TextQueryImage>
                 </>}
             </div>
+
+            <div className="flex space-x-4 space-y-4 flex-wrap">{images.map((r: any)=>{
+
+                return <div key={r.fileKey}>
+                    <img alt={'img'} className="w-[200px] h-[200px] shrink-0 object-contain" src={r.contentURL}></img>
+                </div>
+            })}</div>
     
             <pre>{logs.join('\n')}</pre>
         </>}
