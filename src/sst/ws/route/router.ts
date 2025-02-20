@@ -21,5 +21,4 @@ export async function router({ inbound, connectionId }: any) {
     if (inbound.action === 'onlineList') {
         await onlineList({ inbound, connectionId, wss, dyna })
     }
-    //
 }

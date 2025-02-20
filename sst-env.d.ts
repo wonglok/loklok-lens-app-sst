@@ -5,12 +5,24 @@
 
 declare module "sst" {
   export interface Resource {
+    "AppDataBucket": {
+      "name": string
+      "type": "sst.aws.Bucket"
+    }
+    "AppDataCDN": {
+      "type": "sst.aws.Router"
+      "url": string
+    }
     "ConnectionsTable": {
       "name": string
       "type": "sst.aws.Dynamo"
     }
     "MyWeb": {
       "type": "sst.aws.Nextjs"
+      "url": string
+    }
+    "RestAPI": {
+      "type": "sst.aws.ApiGatewayV2"
       "url": string
     }
     "SESSION_SECRET": {

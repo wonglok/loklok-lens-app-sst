@@ -6,7 +6,6 @@ export function TextQueryImage({ wss , clientID}: { clientID:string, wss: WebSoc
     let refInput = useRef<HTMLInputElement>(null)
 
     return <>
-        
         <input type="text" ref={refInput} className="w-full" defaultValue={'what is your favrouite food?'}></input>
     <br/>
         <button className="px-3 py-1 bg-blue-100 text-sm text-blue-800 border-blue-500 border rounded-lg" onClick={() =>{

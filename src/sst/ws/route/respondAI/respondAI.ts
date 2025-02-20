@@ -18,7 +18,8 @@ export async function respondAI({
 }) {
     let payload = inbound.payload
     let clientID = payload.clientID
-    let query = payload.query
+    let answer = payload.answer
+    let requestID = payload.requestID
 
     console.log(inbound)
 
@@ -61,11 +62,12 @@ export async function respondAI({
                                 new PostToConnectionCommand({
                                     ConnectionId: `${connection.itemID}`,
                                     Data: JSON.stringify({
-                                        action: 'requestAI',
+                                        action: 'respondAI',
                                         payload: {
                                             connectionID: `${connection.itemID}`,
                                             clientID: `${connection.clientID}`,
-                                            query: `${query}`,
+                                            requestID: requestID,
+                                            answer: answer,
 
                                             // jwt: `${jwt}`,
 

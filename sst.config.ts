@@ -18,12 +18,40 @@ export default $config({
             primaryIndex: { hashKey: 'itemID' },
         })
 
+        const appDataBucket = new sst.aws.Bucket('AppDataBucket', {
+            access: 'public',
+            cors: {
+                allowHeaders: ['*'],
+                allowOrigins: ['*'],
+                allowMethods: ['DELETE', 'GET', 'HEAD', 'POST', 'PUT'],
+                exposeHeaders: ['E-Tag'],
+                maxAge: '3600 seconds',
+            },
+        })
+
+        const appDataCDN = new sst.aws.Router('AppDataCDN', {
+            routes: {
+                '/*': {
+                    bucket: appDataBucket,
+                },
+                //
+                // '/bucket/*': {
+                //     bucket: myUGCBucket,
+                // },
+                //
+            },
+        })
+
+        //
+
         const wss = new sst.aws.ApiGatewayWebSocket('SocketAPI')
-        const getRealtimeLinks = () => [ConnectionsTable, wss]
 
         const SESSION_SECRET = new sst.Secret('SESSION_SECRET')
 
+        const api = new sst.aws.ApiGatewayV2('RestAPI')
+
         const environment = {
+            CURRENT_STAGE: $app.stage,
             SESSION_SECRET: SESSION_SECRET.value,
             SocketAPI: wss.url,
         }
@@ -36,6 +64,24 @@ export default $config({
                 name: 'lens-preview.loklok.land',
             }
         }
+
+        const getRealtimeLinks = () => [ConnectionsTable, wss, api]
+
+        api.route('POST /api/files/signGenericFile', {
+            link: [appDataBucket, appDataCDN, api],
+            environment: environment,
+            handler: 'src/sst/http/files/files.signGenericFile',
+        })
+        api.route('POST /api/files/removeUserGenericFile', {
+            link: [appDataBucket, appDataCDN, api],
+            environment: environment,
+            handler: 'src/sst/http/files/files.removeUserGenericFile',
+        })
+        api.route('GET /api/files/getFileLink', {
+            link: [appDataBucket, appDataCDN, api],
+            environment: environment,
+            handler: 'src/sst/http/files/files.getFileLink',
+        })
 
         let nextjs = new sst.aws.Nextjs('MyWeb', {
             environment: environment,

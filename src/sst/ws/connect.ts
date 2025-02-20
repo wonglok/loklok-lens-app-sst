@@ -39,6 +39,7 @@ export async function handler(event: any) {
 
     console.log('connect', connectionId, newItem)
 
+    //
     // Resource.ConnectionsTable
     //
 

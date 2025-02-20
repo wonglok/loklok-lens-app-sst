@@ -18,6 +18,7 @@ export function SocketTest({ socketURL = '', clientID = ''}) {
             return
         }
 
+        //
         // localStorage.setItem("clientID", `lokloklens`);
 
         console.log('clientID', clientID)
