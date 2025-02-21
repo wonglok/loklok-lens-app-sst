@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev --port 3001",
+    "dev": "npm run sst",
     "dev3001": "next dev --port 3001",
     "lint": "next lint",
     "start": "next start",
