@@ -88,14 +88,8 @@ export default $config({
             link: [...getRealtimeLinks()],
             domain: domain,
             dev: {
-                // command: `npm run dev3001`,
+                autostart: true,
                 url: `http://localhost:3001`,
-            },
-        })
-
-        new sst.x.DevCommand('next', {
-            dev: {
-                command: `npm run dev3001`,
             },
         })
 
