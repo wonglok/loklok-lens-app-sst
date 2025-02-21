@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 // import { v4 } from "uuid";
-import copy from 'copy-to-clipboard';
+// import copy from 'copy-to-clipboard';
 import WebSocket from 'reconnecting-websocket'
 import { TextQueryImage } from "./TextQueryImage";
 import { useSearchParams } from "next/navigation";
@@ -18,10 +18,6 @@ export function SocketTest({ socketURL = '', clientID = ''}) {
         if (!socketURL) {
             return
         }
-
-        //
-        //
-        // localStorage.setItem("clientID", `lokloklens`);
 
         console.log('clientID', clientID)
 

@@ -3,8 +3,8 @@ import "./globals.css";
 
 
 export const metadata: Metadata = {
-  title: "Lok Lok Land App",
-  description: "lok lok land",
+  title: "Lok's App",
+  description: "lok lok App",
 };
 
 export default function RootLayout({
