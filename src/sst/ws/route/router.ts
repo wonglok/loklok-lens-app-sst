@@ -4,7 +4,6 @@ import { Resource } from 'sst'
 // import { sayHi } from './sayHi/sayHi'
 import { requestAI } from './requestAI/requestAI'
 import { respondAI } from './respondAI/respondAI'
-import { onlineList } from './onlineList/onlineList'
 
 let wss = new ApiGatewayManagementApiClient({
     endpoint: Resource.SocketAPI.managementEndpoint,
@@ -17,8 +16,5 @@ export async function router({ inbound, connectionId }: any) {
     }
     if (inbound.action === 'respondAI') {
         await respondAI({ inbound, connectionId, wss, dyna })
-    }
-    if (inbound.action === 'onlineList') {
-        await onlineList({ inbound, connectionId, wss, dyna })
     }
 }

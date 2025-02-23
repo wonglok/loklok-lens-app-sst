@@ -21,6 +21,12 @@ export async function respondAI({
     let answer = payload.answer
     let requestID = payload.requestID
 
+    // requestID
+    // jwt(userID + randomID, secret) = mixer
+    // store in DB
+    // md5(userID + appID + mixer) = hash
+    //
+
     console.log(inbound)
 
     // let jwt = json.jwt

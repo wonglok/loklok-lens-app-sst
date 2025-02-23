@@ -10,7 +10,7 @@ export function SocketTest({ socketURL = '', clientID = ''}) {
     let [status, setStatus] = useState('loading')
     let [logs, setLogs] = useState([])
     let [wss, setWss] = useState<any>(false)
-    let [images, setImages] = useState([] )
+    let [images, setImages] = useState([])
     let params = useSearchParams()
 
     let connectionURL = `${socketURL}?clientID=${clientID}`
@@ -77,11 +77,13 @@ export function SocketTest({ socketURL = '', clientID = ''}) {
                 </>}
             </div>
 
-            <div className="flex space-x-4 space-y-4 flex-wrap">{images.map((r: any)=>{
-                return <div key={r.fileKey}>
-                    <img alt={'img'} className="w-[200px] h-[200px] shrink-0 object-contain" src={r.contentURL}></img>
-                </div>
-            })}</div>
+            <div className="flex space-x-4 space-y-4 flex-wrap">
+                {images.map((r: any)=>{
+                    return <div key={r.fileKey}>
+                        <img alt={'img'} className="w-[200px] h-[200px] shrink-0 object-contain" src={r.contentURL}></img>
+                    </div>
+                })}
+            </div>
     
             <pre>{logs.join('\n')}</pre>
         </>}
